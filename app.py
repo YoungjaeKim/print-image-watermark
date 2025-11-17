@@ -30,6 +30,11 @@ def parse_arguments():
         required=True,
         help="Directory path containing images (PNG/JPG)"
     )
+    parser.add_argument(
+        "--target",
+        default=None,
+        help="Directory path for output images (default: watermark directory inside source)"
+    )
     return parser.parse_args()
 
 
@@ -229,13 +234,25 @@ def main():
         print(f"No image files found in {args.source}")
         return
     
+    # Determine output directory
+    if args.target:
+        output_dir = Path(args.target)
+    else:
+        # Create watermark directory inside source directory
+        source_path = Path(args.source)
+        output_dir = source_path / "watermark"
+    
+    # Create output directory if it doesn't exist
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Output directory: {output_dir}")
+    
     print(f"Found {len(image_files)} image(s) to process")
     print(f"Configuration: position={config['position']}, "
           f"color={config['fontcolor']}, size={config['fontsize']}")
     
     # Process each image
     for image_path in image_files:
-        add_watermark_to_image(image_path, config)
+        add_watermark_to_image(image_path, config, output_dir)
     
     print("Done!")
 
