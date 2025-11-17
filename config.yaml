@@ -1,0 +1,6 @@
+position: bottom-right
+fontcolor: red
+fontsize: 14
+contents: filename
+type: regex
+format: "*"
