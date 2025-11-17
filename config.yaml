@@ -1,0 +1,6 @@
+position: bottom-right
+fontcolor: red
+fontsize: 45
+contents: filename
+type: regex
+format: (\d{8}_\d{6})
